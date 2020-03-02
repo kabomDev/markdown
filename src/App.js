@@ -10,6 +10,23 @@ class App extends Component{
     text: sampleText
   }
 
+  //on recupère les données du localStorage
+  componentDidMount(){
+    const text = localStorage.getItem('text')
+    if(text){
+      this.setState({text})
+    }else{
+      this.setState({ text: sampleText})
+    }
+    
+  }
+
+  //on sauvegarde dans le localStorage
+  componentDidUpdate(){
+    const {text} = this.state
+    localStorage.setItem('text', text)
+  }
+
   //fonction qui permet la modification du state
   handleChange = event => {
     const text = event.target.value
@@ -24,17 +41,17 @@ class App extends Component{
 
   render(){
     return (
-      <div className="container">
+      <div className="container mb-5">
+        <h1 className='text-center mb-5'>Markdown</h1>
         <div className="row">
           <div className="col-sm-6">
             <textarea 
               className='form-control' 
-              row='40' value={this.state.text} 
+              rows='30' value={this.state.text} 
               onChange={this.handleChange} >  
             </textarea>
           </div>
-          <div className="col-sm-6">
-            <h2>Résultats</h2>
+          <div className="col-sm-6 result">
             <div dangerouslySetInnerHTML = 
               {this.renderText(this.state.text)} />            
           </div>
