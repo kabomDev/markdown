@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import{sampleText} from './sampleText'
+import marked from 'marked'
+
 
 class App extends Component{
   //on définit dans state le contenu de sampleText
@@ -14,6 +16,12 @@ class App extends Component{
     this.setState({text})
   }
 
+  //on met dans une variable la methode marked
+  renderText = text => {
+    const __html = marked(text, {sanitize: true})
+    return {__html}
+  }
+
   render(){
     return (
       <div className="container">
@@ -22,13 +30,13 @@ class App extends Component{
             <textarea 
               className='form-control' 
               row='40' value={this.state.text} 
-              onChange={this.handleChange} >
-  
+              onChange={this.handleChange} >  
             </textarea>
           </div>
           <div className="col-sm-6">
             <h2>Résultats</h2>
-            {sampleText}
+            <div dangerouslySetInnerHTML = 
+              {this.renderText(this.state.text)} />            
           </div>
         </div>
       </div>
